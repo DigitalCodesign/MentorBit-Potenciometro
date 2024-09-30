@@ -1,0 +1,3 @@
+MentorBitPotenciometro KEYWORD1
+obtenerLectura KEYWORD2
+encenderLed KEYWORD2
