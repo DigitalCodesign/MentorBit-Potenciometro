@@ -70,4 +70,6 @@ void MentorBitPotenciometro::configPort(const Port& port) {
     _port.gpios[0] = port.gpios[0];
     _port.gpios[1] = port.gpios[1];
 
+    pinMode(_port.gpios[1], OUTPUT);
+
 }
