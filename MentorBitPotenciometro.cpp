@@ -38,17 +38,17 @@
 /*
     Constructor, se debe indicar el pin al que esta conectado el potenciometro y el led
 */
-MentorBitPotenciometro::MentorBitPotenciometro(uint8_t pin_potenciometro, uint8_t pin_led){
-    _potenciometer_pin = pin_potenciometro;
-    _led_pin = pin_led;
-    pinMode(_led_pin, OUTPUT);
+MentorBitPotenciometro::MentorBitPotenciometro(uint8_t pin_potenciometro = 0, uint8_t pin_led = 0) {
+    _port.gpios[0] = pin_potenciometro;
+    _port.gpios[1] = pin_led;
+    if(pin_led) pinMode(_port.gpios[1], OUTPUT);
 }
 /*
     Funcion que obtiene el valor del potenciometro y lo devuelve
 */
 uint16_t MentorBitPotenciometro::obtenerLectura(){
     uint16_t value = 0;
-    value = analogRead(_potenciometer_pin);
+    value = analogRead(_port.gpios[0]);
     return value;
 }
 
@@ -60,5 +60,14 @@ uint16_t MentorBitPotenciometro::obtenerLectura(){
     value = 0 -> led apagado
 */
 void MentorBitPotenciometro::encenderLed(bool value){
-    digitalWrite(_led_pin,value);
+    digitalWrite(_port.gpios[1],value);
+}
+
+void MentorBitPotenciometro::configPort(const Port& port) {
+
+    _port.type = port.type;
+    _port.location = port.location;
+    _port.gpios[0] = port.gpios[0];
+    _port.gpios[1] = port.gpios[1];
+
 }

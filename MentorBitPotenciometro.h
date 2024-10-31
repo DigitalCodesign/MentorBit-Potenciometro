@@ -36,19 +36,20 @@
 #define MentorBitPotenciometro_h
 
 #include <arduino.h>
+#include <MentorPort.h>
 
-class MentorBitPotenciometro
+class MentorBitPotenciometro : public MentorPort
 {
     public:
 
         MentorBitPotenciometro(uint8_t pin_potenciometro, uint8_t pin_led);
         uint16_t obtenerLectura();
         void encenderLed(bool value);
+        void configPort(const Port& port) override;
 
     private:
 
-        uint8_t _potenciometer_pin;
-        uint8_t _led_pin;
+        Port _port;
 
 };
 
