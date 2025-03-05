@@ -1,44 +1,56 @@
-# MentorBit-Potenciometro
-Esta librería está construida por Digital Codesign para utilizar el módulo de Potenciómetro, principalmente diseñado para el kit educacional "MentorBit".
+# MentorBitPotenciometro
 
-Puedes encontrar nuestro MentorBit y mucho más material de electrónica y robótica en nuestra tienda oficial:  [https://digitalcodesign.com/shop](https://digitalcodesign.com/shop)
+Librería para el uso de potenciómetros con LED integrado en módulos compatibles con MentorBit.
 
-# Modo de empleo
+## Descripción
 
-Una vez tengamos la librería instalada desde el Arduino IDE, tenemos que incluir la librería con la siguiente línea:
+La librería `MentorBitPotenciometro` facilita la lectura de potenciómetros con un LED integrado en módulos compatibles con MentorBit. Permite obtener el valor analógico del potenciómetro y controlar el estado del LED.
 
-```
-#include <MentorBitPotenciometro.h>
-```
+## Modo de Empleo
+
+1.  **Instalación:**
+    * Abre el IDE compatible con MentorBit.
+    * Ve a "Herramientas" -> "Gestionar librerías..."
+    * Busca "MentorBitPotenciometro" e instálala.
+
+2.  **Ejemplo básico:**
+
+    ```c++
+    #include <MentorBitPotenciometro.h>
+
+    MentorBitPotenciometro pote(A0, 2); // Potenciómetro en pin A0, LED en pin 2
+
+    void setup() {
+      Serial.begin(9600);
+      Serial.println("Potenciómetro inicializado.");
+    }
+
+    void loop() {
+      uint16_t valor = pote.obtenerLectura();
+      Serial.print("Valor del potenciómetro: ");
+      Serial.println(valor);
+
+      // Enciende el LED si el valor es mayor a 500
+      if (valor > 500) {
+        pote.encenderLed(true);
+      } else {
+        pote.encenderLed(false);
+      }
+
+      delay(100);
+    }
+    ```
+
+## Constructor y Métodos Públicos
 
 ### Constructor
 
-Una vez incluida la librería, usamos el constructor para crear el objeto del módulo de potenciómetro, y definimos los pines a los que están conectados el potenciómetro y el LED:
+* `MentorBitPotenciometro(uint8_t pin_potenciometro = 0, uint8_t pin_led = 0)`: Crea un objeto `MentorBitPotenciometro`.
+    * `pin_potenciometro`: Pin analógico al que está conectado el potenciómetro. Si no se especifica, se asume que no está conectado a ningún pin inicialmente.
+    * `pin_led`: Pin digital al que está conectado el LED. Si no se especifica, se asume que no está conectado a ningún pin inicialmente.
 
-```
-MentorBitPotenciometro potenciometro(PIN_POTENCIOMETRO, PIN_LED);
-```
+### Métodos
 
-Siendo `PIN_POTENCIOMETRO` el pin al que está conectado el potenciómetro y `PIN_LED` el pin al que está conectado el LED.
-
-### Uso
-
-Con el objeto `potenciometro` definido, podemos obtener la lectura del potenciómetro utilizando la función `obtenerLectura()`, que devuelve el valor analógico leído en el pin del potenciómetro:
-
-```
-uint16_t lectura = potenciometro.obtenerLectura();
-```
-
-El valor devuelto es un número entre 0 y 1023, correspondiente al valor de la lectura analógica del potenciómetro.
-
-Además, si deseas controlar el LED de la placa en función de un parámetro de entrada, puedes usar la función `encenderLed()`. Si pasas `true` (o `1`), el LED se encenderá, y si pasas `false` (o `0`), se apagará:
-
-```
-potenciometro.encenderLed(true);  // Enciende el LED
-potenciometro.encenderLed(false); // Apaga el LED
-```
-
-### Atributos
-
-- `PIN_POTENCIOMETRO`: Define el pin del potenciómetro.
-- `PIN_LED`: Define el pin del LED integrado en la placa.
+* `uint16_t obtenerLectura()`: Lee el valor analógico del potenciómetro.
+* `void encenderLed(bool value)`: Controla el estado del LED.
+    * `value`: `true` para encender el LED, `false` para apagarlo.
